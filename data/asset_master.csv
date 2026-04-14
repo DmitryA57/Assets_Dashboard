@@ -1,0 +1,62 @@
+asset_id,asset_name,display_name,bbg_ticker,source_field,source,asset_class,sub_asset_class,country,region,dm_em_flag,commodity_category,sector_name,series_type,return_variant,currency,unit,is_active,notes
+cmd_api2,API2,API2,API21MON OECM Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,"Energy - gas, LNG, coal",,commodity_benchmark_price,,USD,1t,True,Rebuilt from Assets_data.xlsx
+cmd_aluminium,Aluminium,Aluminium,LOAHDY LME Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Base metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_asia_naphtha_fob_singapore_cargo_spot,Asia Naphtha FOB Singapore Cargo Spot,Asia Naphtha FOB Singapore Cargo Spot,NAPHSINF  Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_brent,Brent,Brent,CO1 Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_china_hrc,China HRC,China HRC,CDSPHRSH Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Ferrous / Steel chain,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_cobalt,Cobalt,Cobalt,LMCODY Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Base metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_copper,Copper,Copper,LMCADY LME Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Base metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_corn,Corn,Corn,c 1 comb comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Agriculture,,commodity_benchmark_price,,USD,"0,01 bushels",True,Rebuilt from Assets_data.xlsx
+cmd_dap_us_gulf_export_price,DAP US Gulf export price,DAP US Gulf export price,GCFPDANO Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Fertilizers,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_european_gasoil_0_1_fob_med_cargo_spot,European Gasoil 0.1% FOB Med Cargo Spot,European Gasoil 0.1% FOB Med Cargo Spot,HEATNCFM  Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_european_ulsd_10ppm_fob_med_cargo_spot,European ULSD 10ppm FOB Med Cargo Spot,European ULSD 10ppm FOB Med Cargo Spot,DIEN10MD  Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_fuel_oil_3_5_rotterdam_swap,"Fuel Oil 3,5% Rotterdam swap","Fuel Oil 3,5% Rotterdam swap",LW1 COMB Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_gold,Gold,Gold,XAU BGN Curncy,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Precious metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_hcc_fob_australia_swap_m1,HCC FOB Australia Swap M1,HCC FOB Australia Swap M1,HCCAM1 Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Ferrous / Steel chain,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_hrc_us,HRC US,HRC US,HRC1 Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Ferrous / Steel chain,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_henry_hub,Henry Hub,Henry Hub,NGA Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,"Energy - gas, LNG, coal",,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_iron_ore_62,Iron Ore 62%,Iron Ore 62%,ISIX62IU Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Ferrous / Steel chain,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_lng_australia_to_china,LNG Australia to China,LNG Australia to China,POTNACGP Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,"Energy - gas, LNG, coal",,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_lithium_lce,"Lithium, LCE","Lithium, LCE",L4CNMJGO AMTL Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Base metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_newc_index,NEWC index,NEWC index,XW1 Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,"Energy - gas, LNG, coal",,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_nickel_lme,Nickel LME,Nickel LME,LMNIDS03 Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Base metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_palladium,Palladium,Palladium,XPD BGN Curncy,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Precious metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_platinum,Platinum,Platinum,XPT BGN Curncy,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Precious metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_potash_brazil_cfr,Potash Brazil CFR,Potash Brazil CFR,GCFPPGBZ Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Fertilizers,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_soy,SOY,SOY,S 1 comb comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Agriculture,,commodity_benchmark_price,,USD,"0,01 bushels",True,Rebuilt from Assets_data.xlsx
+cmd_silver,Silver,Silver,XAG BGN Curncy,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Precious metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_ttf_spot,TTF spot,TTF spot,TTFG1MON OECM Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,"Energy - gas, LNG, coal",,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_ttf_year_ahead,TTF year-ahead,TTF year-ahead,TTFGCY1  OECM Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,"Energy - gas, LNG, coal",,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_urals,Urals,Urals,FURAM1  Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_uranium,Uranium,Uranium,UXCPSPTW Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy materials,,commodity_benchmark_price,,USD,"0,01 bushels",True,Rebuilt from Assets_data.xlsx
+cmd_urea_black_sea,Urea Black sea,Urea Black sea,GCFPURBS Index,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Fertilizers,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_wti,WTI,WTI,CLA Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Energy - crude oil & refined products,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+cmd_wheat,Wheat,Wheat,w 1 comb comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Agriculture,,commodity_benchmark_price,,USD,"0,01 bushels",True,Rebuilt from Assets_data.xlsx
+cmd_zinc,Zinc,Zinc,LMZSDY LME Comdty,PX_LAST,Bloomberg,Commodities,Benchmark,,,,Base metals,,commodity_benchmark_price,,USD,,True,Rebuilt from Assets_data.xlsx
+eq_aex,AEX,AEX,AEX Index,PX_LAST,Bloomberg,Equities,Headline Index,Netherlands,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_s_p_asx_200,S&P/ASX 200,AS51 / S&P/ASX 200,AS51 Index,PX_LAST,Bloomberg,Equities,Headline Index,Australia,Asia Pacific,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_bmv_ipc,BMV IPC,BMV IPC (Mexico),MEXBOL Index,PX_LAST,Bloomberg,Equities,Headline Index,Mexico,Latin America,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_cac_40,CAC 40,CAC 40,CAC Index,PX_LAST,Bloomberg,Equities,Headline Index,France,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_csi_300,CSI 300,CSI 300 (China),SHSZ300 Index,PX_LAST,Bloomberg,Equities,Headline Index,China,Asia,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_dax,DAX,DAX,DAX Index,PX_LAST,Bloomberg,Equities,Headline Index,Germany,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_euro_stoxx_50,EURO STOXX 50,EURO STOXX 50,SX5E Index,PX_LAST,Bloomberg,Equities,Headline Index,Europe,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_ftse_100,FTSE 100,FTSE 100,UKX Index,PX_LAST,Bloomberg,Equities,Headline Index,United Kingdom,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_ftse_mib,FTSE MIB,FTSE MIB,FTSEMIB Index,PX_LAST,Bloomberg,Equities,Headline Index,Italy,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_hang_seng_index,Hang Seng Index,Hang Seng Index,HSI Index,PX_LAST,Bloomberg,Equities,Headline Index,Hong Kong,Asia,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_ibex_35,IBEX 35,IBEX 35,IBEX Index,PX_LAST,Bloomberg,Equities,Headline Index,Spain,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_idx_composite,IDX Composite,IDX Composite,JCI Index,PX_LAST,Bloomberg,Equities,Headline Index,Indonesia,Asia,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_ibovespa,Ibovespa,Ibovespa (Brazil),IBOV Index,PX_LAST,Bloomberg,Equities,Headline Index,Brazil,Latin America,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_kospi,KOSPI,Korea Composite Stock Price Index,KOSPI Index,PX_LAST,Bloomberg,Equities,Headline Index,South Korea,Asia,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_msci_colcap,MSCI COLCAP,MSCI COLCAP (Columbia),COLCAP Index,PX_LAST,Bloomberg,Equities,Headline Index,Colombia,Latin America,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_nasdaq_composite,Nasdaq Composite,Nasdaq Composite,CCMP Index,PX_LAST,Bloomberg,Equities,Headline Index,United States,North America,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_nifty_50,Nifty 50,Nifty 50 (India),NIFTY Index,PX_LAST,Bloomberg,Equities,Headline Index,India,Asia,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_nikkei_225,Nikkei 225,Nikkei 225,NKY Index,PX_LAST,Bloomberg,Equities,Headline Index,Japan,Asia Pacific,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_omx_stockholm_30,OMX Stockholm 30,OMX Stockholm 30 (OMXS30),OMX Index,PX_LAST,Bloomberg,Equities,Headline Index,Sweden,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_s_p_ipsa,S&P IPSA,S&P IPSA (Chile),IPSA Index,PX_LAST,Bloomberg,Equities,Headline Index,Chile,Latin America,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_s_p_merval,S&P MERVAL,S&P MERVAL (Argentina),MERVAL Index,PX_LAST,Bloomberg,Equities,Headline Index,Argentina,Latin America,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_s_p_500,S&P 500,S&P500,SPX Index,PX_LAST,Bloomberg,Equities,Headline Index,United States,North America,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_s_p_tsx_composite,S&P/TSX Composite,SPTSX (Canada),SPTSX Index,PX_LAST,Bloomberg,Equities,Headline Index,Canada,North America,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_stoxx_europe_600,STOXX Europe 600,STOXX Europe 600,SXXP Index,PX_LAST,Bloomberg,Equities,Headline Index,Europe,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_straits_times_index,Straits Times Index,Straits Times Index,STI Index,PX_LAST,Bloomberg,Equities,Headline Index,Singapore,Asia,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_swiss_market_index,Swiss Market Index,Swiss Market Index,SMI Index,PX_LAST,Bloomberg,Equities,Headline Index,Switzerland,Europe,DM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx
+eq_taiwan_stock_exchange_index,Taiwan Stock Exchange Index,Taiwan Stock Exchange Index,TWSE Index,PX_LAST,Bloomberg,Equities,Headline Index,Taiwan,Asia,EM,,,equity_price_index,Price Return,USD,index points,True,Rebuilt from Assets_data.xlsx

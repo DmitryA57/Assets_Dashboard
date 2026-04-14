@@ -1,0 +1,17 @@
+.pytest_cache/
+__pycache__/
+.venv/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+.streamlit/secrets.toml
+!data/prices.parquet
+!data/snapshot.parquet
+!.streamlit/
+!.streamlit/config.toml

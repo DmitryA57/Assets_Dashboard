@@ -1,0 +1,3 @@
+event_id,event_name,event_date,description,is_active
+IRAN_US_ISRAEL_OP_START,Default event,2026-02-28,Default event base for dashboard calculations,True
+

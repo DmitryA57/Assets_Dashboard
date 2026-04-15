@@ -24,7 +24,7 @@ FILTER_CONFIG = {
 PAGE_FILTERS = {
     "overview": ["asset_class", "dm_em_flag", "region"],
     "equities": ["dm_em_flag", "country", "region", "sector_name", "return_variant"],
-    "bonds": ["dm_em_flag", "country", "region", "sub_asset_class"],
+    "bonds": ["dm_em_flag", "country", "region", "sub_asset_class", "sector_name"],
     "commodities": ["commodity_category"],
     "compare": ["asset_class", "dm_em_flag", "region", "commodity_category"],
 }

@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-# Assets_Dashboard
-=======
-# Global Cross-Asset Dashboard
+# Assets Dashboard
 
 Streamlit dashboard for cross-asset market monitoring across equities, bonds, and commodities.
 
-The repository is already prepared for GitHub and Streamlit Community Cloud:
+The repository is prepared for GitHub and Streamlit Community Cloud:
 - `app.py` is the entrypoint.
 - `.streamlit/config.toml` is included in the repo.
 - required app data is stored in `data/prices.parquet` and `data/snapshot.parquet`.
@@ -36,7 +33,7 @@ The repository is already prepared for GitHub and Streamlit Community Cloud:
 
 ## Local Run
 
-Recommended Python version: `3.12`
+Recommended Python version: `3.12`.
 
 Install dependencies:
 
@@ -67,13 +64,23 @@ The app relies on repository-local data files:
 
 `data/raw/` and `data/processed/` stay excluded from git except for `.gitkeep`.
 
+## Bond Data
+
+Bond index data can be imported from the approved Bloomberg workbook:
+
+```bash
+.venv/Scripts/python.exe -m src.bonds_workbook --source path/to/Bonds_data.xlsx
+```
+
+The importer adds the approved bond index universe and excludes leveraged loans by specification.
+
 ## Streamlit Community Cloud
 
 When creating the app in Streamlit Community Cloud:
 - repository: this GitHub repo
 - branch: `main`
 - entrypoint: `app.py`
-- Python: `3.12`
+- Python: `3.12` if available, otherwise the dependency pins support Python `3.14`
 
 No secrets are required for the current version of the app.
 
@@ -86,4 +93,3 @@ No secrets are required for the current version of the app.
 - `data/snapshot.parquet` is committed
 - no local secrets are stored in the repo
 - tests pass locally
->>>>>>> 519b2d4 (Initial app upload)

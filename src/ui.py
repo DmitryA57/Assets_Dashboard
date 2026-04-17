@@ -335,12 +335,31 @@ def render_heatmap(title: str, heatmap: pd.DataFrame, percent: bool = True, colu
     st.altair_chart(chart + text, use_container_width=True)
 
 
+def _normalized_axis_domain(history: pd.DataFrame, value_column: str = "normalized") -> tuple[float, float] | None:
+    if history.empty or value_column not in history.columns:
+        return None
+
+    values = pd.to_numeric(history[value_column], errors="coerce").dropna()
+    if values.empty:
+        return None
+
+    min_value = float(values.min())
+    max_value = float(values.max())
+    span = max_value - min_value
+    padding = max(span * 0.12, 0.75) if span > 0 else max(abs(max_value) * 0.02, 1.0)
+
+    domain_min = min(min_value, 100.0) - padding
+    domain_max = max(max_value, 100.0) + padding
+    return domain_min, domain_max
+
+
 def render_normalized_line_chart(title: str, history: pd.DataFrame, event_date: pd.Timestamp | None = None) -> None:
     st.subheader(title)
     if history.empty:
         st.caption("No history available for the current selection.")
         return
 
+    domain = _normalized_axis_domain(history)
     base = (
         alt.Chart(history)
         .mark_line(strokeWidth=2.2)
@@ -361,6 +380,7 @@ def render_normalized_line_chart(title: str, history: pd.DataFrame, event_date: 
                 "normalized:Q",
                 title="Normalized to 100",
                 axis=alt.Axis(labelColor="#5B6B66", titleColor="#5B6B66", gridColor="#D7E0DB"),
+                scale=alt.Scale(domain=list(domain), zero=False, nice=False) if domain is not None else alt.Undefined,
             ),
             color=alt.Color("display_name:N", title=None),
             tooltip=[
@@ -371,7 +391,8 @@ def render_normalized_line_chart(title: str, history: pd.DataFrame, event_date: 
         )
         .properties(height=360)
     )
-    layers = [base]
+    baseline_rule = alt.Chart(pd.DataFrame({"baseline": [100.0]})).mark_rule(color="#AEBBB6", strokeDash=[4, 4]).encode(y="baseline:Q")
+    layers = [baseline_rule, base]
     if event_date is not None:
         rule_frame = pd.DataFrame({"event_date": [event_date]})
         rule = alt.Chart(rule_frame).mark_rule(color="#5B6B66", strokeDash=[6, 5]).encode(x="event_date:T")

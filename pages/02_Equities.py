@@ -22,7 +22,6 @@ from src.ui import (
     build_page_filters,
     build_reference_date_control,
     format_metric_option,
-    prepare_user_table,
     render_empty_state,
     render_filter_chips,
     render_heatmap,
@@ -32,6 +31,48 @@ from src.ui import (
     render_ranked_bars,
     render_summary_table,
 )
+
+
+def build_headline_cards(frame: pd.DataFrame, metric: str) -> list[KpiCard]:
+    cards: list[KpiCard] = []
+    if frame.empty or metric not in frame.columns:
+        return cards
+
+    country_avg = aggregate_metric(frame, "country", metric)
+    if not country_avg.empty:
+        cards.append(KpiCard("Best Country", str(country_avg.iloc[0]["country"]), f"{country_avg.iloc[0][metric]:+.1%}"))
+        cards.append(KpiCard("Worst Country", str(country_avg.iloc[-1]["country"]), f"{country_avg.iloc[-1][metric]:+.1%}"))
+
+    dm_em = aggregate_metric(frame, "dm_em_flag", metric)
+    if not dm_em.empty:
+        for _, row in dm_em.iterrows():
+            cards.append(KpiCard(f"{row['dm_em_flag']} Average", f"{row[metric]:+.1%}", "Headline equity indices"))
+
+    return cards[:4]
+
+
+def build_sector_cards(sectors: pd.DataFrame, headlines: pd.DataFrame, metric: str, metric_title: str) -> list[KpiCard]:
+    cards: list[KpiCard] = []
+    if sectors.empty or metric not in sectors.columns:
+        return cards
+
+    top, bottom = top_bottom(sectors, metric, n=1)
+    if not top.empty:
+        cards.append(KpiCard("Best Sector", str(top.iloc[0]["display_name"]), f"{top.iloc[0][metric]:+.1%}"))
+    if not bottom.empty:
+        cards.append(KpiCard("Worst Sector", str(bottom.iloc[0]["display_name"]), f"{bottom.iloc[0][metric]:+.1%}"))
+
+    metric_values = sectors[metric].dropna()
+    if not metric_values.empty:
+        cards.append(KpiCard("Sector Average", f"{metric_values.mean():+.1%}", metric_title))
+
+    spx_match = headlines[headlines["bbg_ticker"].fillna("").eq("SPX Index")] if "bbg_ticker" in headlines.columns else headlines.iloc[0:0]
+    if spx_match.empty and "display_name" in headlines.columns:
+        spx_match = headlines[headlines["display_name"].fillna("").eq("S&P500")]
+    if not spx_match.empty:
+        cards.append(KpiCard("S&P 500", f"{spx_match.iloc[0][metric]:+.1%}", "Headline reference"))
+
+    return cards[:4]
 
 
 bundle = load_dashboard_bundle()
@@ -71,20 +112,12 @@ else:
     if excluded_count:
         st.caption(f"{eligible_count} equity series are included in comparisons. {excluded_count} stale series remain visible only in detail views.")
 
-    cards = []
-    country_avg = aggregate_metric(headline_comparison_snapshot, "country", metric)
-    if not country_avg.empty:
-        cards.append(KpiCard("Best Country", str(country_avg.iloc[0]["country"]), f"{country_avg.iloc[0][metric]:+.1%}"))
-        cards.append(KpiCard("Worst Country", str(country_avg.iloc[-1]["country"]), f"{country_avg.iloc[-1][metric]:+.1%}"))
-    dm_em = aggregate_metric(headline_comparison_snapshot, "dm_em_flag", metric)
-    if not dm_em.empty:
-        for _, row in dm_em.iterrows():
-            cards.append(KpiCard(f"{row['dm_em_flag']} Average", f"{row[metric]:+.1%}", "Headline equity indices"))
-    render_kpi_cards(cards[:5])
-
     headline_tab, sectors_tab = st.tabs(["Headline Indices", "Sectors"])
 
     with headline_tab:
+        headline_card_frame = headline_comparison_snapshot if not headline_comparison_snapshot.empty else headline_snapshot
+        render_kpi_cards(build_headline_cards(headline_card_frame, metric))
+
         if headline_comparison_snapshot.empty:
             render_empty_state("Not enough fresh series for rankings.", "Only sufficiently fresh equity series are used for comparisons and heatmaps.")
         else:
@@ -137,7 +170,11 @@ else:
                 "Load the S&P500 sector sheet into Assets_data.xlsx to populate this block.",
             )
         else:
-            top, bottom = top_bottom(sector_comparison_snapshot if not sector_comparison_snapshot.empty else sector_snapshot, metric, n=6)
+            sector_card_frame = sector_comparison_snapshot if not sector_comparison_snapshot.empty else sector_snapshot
+            headline_reference_frame = headline_comparison_snapshot if not headline_comparison_snapshot.empty else headline_snapshot
+            render_kpi_cards(build_sector_cards(sector_card_frame, headline_reference_frame, metric, metric_title))
+
+            top, bottom = top_bottom(sector_card_frame, metric, n=6)
             left, right = st.columns(2)
             with left:
                 render_ranked_bars("Top Sectors", top, metric, limit=6, metric_title=metric_title)

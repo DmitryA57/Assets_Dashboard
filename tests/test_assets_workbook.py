@@ -75,6 +75,9 @@ def test_parse_assets_workbook_extracts_all_requested_asset_classes() -> None:
     top_stocks = workbook.create_sheet("Top-10 stocks")
     _append_standard_rows(top_stocks, ["Amazon"], ["AMZN US Equity"])
 
+    sectors = workbook.create_sheet("S&P500_Sectors")
+    _append_standard_rows(sectors, ["S&P500", "Materials"], ["SPX Index", "S5MATR Index"])
+
     workbook.save(workbook_path)
 
     try:
@@ -83,8 +86,8 @@ def test_parse_assets_workbook_extracts_all_requested_asset_classes() -> None:
         workbook_path.unlink(missing_ok=True)
 
     assert set(asset_master["asset_class"]) == {"Equities", "Commodities", "Bonds", "ETFs", "Crypto", "Top-10 Stocks"}
-    assert len(asset_master) == 7
-    assert len(prices) == 14
+    assert len(asset_master) == 8
+    assert len(prices) == 16
 
     assert "I38932US Index" not in asset_master["bbg_ticker"].tolist()
 
@@ -101,3 +104,10 @@ def test_parse_assets_workbook_extracts_all_requested_asset_classes() -> None:
     amazon = asset_master.loc[asset_master["bbg_ticker"] == "AMZN US Equity"].iloc[0]
     assert amazon["asset_class"] == "Top-10 Stocks"
     assert amazon["sector_name"] == "Consumer Internet"
+
+    materials = asset_master.loc[asset_master["bbg_ticker"] == "S5MATR Index"].iloc[0]
+    assert materials["asset_class"] == "Equities"
+    assert materials["sub_asset_class"] == "S&P 500 Sector"
+    assert materials["sector_name"] == "Materials"
+    assert "SPX Index" in asset_master["bbg_ticker"].tolist()
+    assert int((asset_master["bbg_ticker"] == "SPX Index").sum()) == 1

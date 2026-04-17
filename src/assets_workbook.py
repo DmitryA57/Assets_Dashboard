@@ -341,6 +341,20 @@ TOP_STOCK_METADATA_BY_TICKER = {
     },
 }
 
+SP500_SECTOR_METADATA_BY_TICKER = {
+    "S5MATR Index": {"asset_name": "S&P 500 Materials", "sector_name": "Materials"},
+    "S5INDU Index": {"asset_name": "S&P 500 Industrials", "sector_name": "Industrials"},
+    "S5COND Index": {"asset_name": "S&P 500 Consumer Discretionary", "sector_name": "Consumer Discretionary"},
+    "S5CONS Index": {"asset_name": "S&P 500 Consumer Staples", "sector_name": "Consumer Staples"},
+    "S5HLTH Index": {"asset_name": "S&P 500 Health Care", "sector_name": "Health Care"},
+    "S5FINL Index": {"asset_name": "S&P 500 Financials", "sector_name": "Financials"},
+    "S5INFT Index": {"asset_name": "S&P 500 Information Technology", "sector_name": "Information Technology"},
+    "S5TELS Index": {"asset_name": "S&P 500 Communication Services", "sector_name": "Communication Services"},
+    "S5UTIL Index": {"asset_name": "S&P 500 Utilities", "sector_name": "Utilities"},
+    "S5RLST Index": {"asset_name": "S&P 500 Real Estate", "sector_name": "Real Estate"},
+    "S5ENRS Index": {"asset_name": "S&P 500 Energy", "sector_name": "Energy"},
+}
+
 
 def _clean_text(value: object) -> str:
     if value is None or (isinstance(value, float) and pd.isna(value)):
@@ -439,6 +453,41 @@ def _build_commodity_record(display_name: str, ticker: str) -> dict[str, object]
         "unit": "USD",
         "is_active": True,
         "notes": "Rebuilt from Assets_data.xlsx",
+    }
+
+
+def _build_equity_sector_record(display_name: str, ticker: str) -> dict[str, object] | None:
+    cleaned_ticker = ticker.strip()
+    if cleaned_ticker == "SPX Index":
+        return None
+
+    metadata = SP500_SECTOR_METADATA_BY_TICKER.get(cleaned_ticker)
+    if metadata is None:
+        return None
+
+    asset_name = metadata["asset_name"]
+    sector_name = metadata["sector_name"]
+    cleaned_display_name = display_name.strip() or sector_name
+    return {
+        "asset_id": f"eq_sector_{_slugify(cleaned_ticker)}",
+        "asset_name": asset_name,
+        "display_name": cleaned_display_name,
+        "bbg_ticker": cleaned_ticker,
+        "source_field": "PX_LAST",
+        "source": "Bloomberg",
+        "asset_class": "Equities",
+        "sub_asset_class": "S&P 500 Sector",
+        "country": "United States",
+        "region": "North America",
+        "dm_em_flag": "DM",
+        "commodity_category": "",
+        "sector_name": sector_name,
+        "series_type": "equity_sector_price_index",
+        "return_variant": "Price Return",
+        "currency": "USD",
+        "unit": "index points",
+        "is_active": True,
+        "notes": "Imported from Assets_data.xlsx (S&P500_Sectors sheet).",
     }
 
 
@@ -557,6 +606,8 @@ def _build_top_stock_record(display_name: str, ticker: str) -> dict[str, object]
 def _build_record(sheet_name: str, display_name: str, ticker: str) -> dict[str, object] | None:
     if sheet_name == "Equity":
         return _build_equity_record(display_name, ticker)
+    if sheet_name == "S&P500_Sectors":
+        return _build_equity_sector_record(display_name, ticker)
     if sheet_name == "Commodities":
         return _build_commodity_record(display_name, ticker)
     if sheet_name == "Bonds":

@@ -1,6 +1,6 @@
 # Assets Dashboard
 
-Streamlit dashboard for cross-asset market monitoring across equities, bonds, and commodities.
+Streamlit dashboard for cross-asset market monitoring across equities, bonds, commodities, ETFs, crypto, and a focused stock watchlist.
 
 The repository is prepared for GitHub and Streamlit Community Cloud:
 - `app.py` is the entrypoint.
@@ -64,15 +64,29 @@ The app relies on repository-local data files:
 
 `data/raw/` and `data/processed/` stay excluded from git except for `.gitkeep`.
 
-## Bond Data
+## Data Import
 
-Bond index data can be imported from the approved Bloomberg workbook:
+The main project data can be rebuilt from the combined Bloomberg workbook:
+
+```bash
+.venv/Scripts/python.exe -m src.assets_workbook --source path/to/Assets_data.xlsx
+```
+
+This importer refreshes:
+- `Equities`
+- `Commodities`
+- `Bonds`
+- `ETFs`
+- `Crypto`
+- `Top-10 Stocks`
+
+It also preserves the approved bond universe and still excludes leveraged loans by specification.
+
+Bond-only updates remain available if needed:
 
 ```bash
 .venv/Scripts/python.exe -m src.bonds_workbook --source path/to/Bonds_data.xlsx
 ```
-
-The importer adds the approved bond index universe and excludes leveraged loans by specification.
 
 ## Streamlit Community Cloud
 

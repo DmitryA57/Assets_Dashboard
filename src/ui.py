@@ -18,7 +18,7 @@ FILTER_CONFIG = {
     "return_variant": {"label": "Return type", "field": "return_variant"},
     "sector_name": {"label": "Sector", "field": "sector_name"},
     "commodity_category": {"label": "Commodity category", "field": "commodity_category"},
-    "sub_asset_class": {"label": "Bond type", "field": "sub_asset_class"},
+    "sub_asset_class": {"label": "Category", "field": "sub_asset_class"},
 }
 
 PAGE_FILTERS = {
@@ -26,6 +26,9 @@ PAGE_FILTERS = {
     "equities": ["dm_em_flag", "country", "region", "sector_name", "return_variant"],
     "bonds": ["dm_em_flag", "country", "region", "sub_asset_class", "sector_name"],
     "commodities": ["commodity_category"],
+    "etfs": ["sub_asset_class", "country", "region", "sector_name", "commodity_category"],
+    "crypto": [],
+    "top_stocks": [],
     "compare": ["asset_class", "dm_em_flag", "region", "commodity_category"],
 }
 
@@ -66,7 +69,8 @@ def _coalesced_options(bundle: DashboardBundle, field: str) -> list[str]:
 
 def build_page_filters(bundle: DashboardBundle, page_name: str, key_prefix: str) -> DashboardFilters:
     fields = PAGE_FILTERS.get(page_name, [])
-    st.sidebar.header("Filters")
+    if fields:
+        st.sidebar.header("Filters")
     selections: dict[str, list[str]] = {key: [] for key in FILTER_CONFIG}
 
     for field in fields:
@@ -164,7 +168,7 @@ def render_filter_chips(filters: DashboardFilters) -> None:
     if filters.commodity_categories:
         selected.append("Commodity category: " + ", ".join(filters.commodity_categories))
     if filters.sub_asset_classes:
-        selected.append("Bond type: " + ", ".join(filters.sub_asset_classes))
+        selected.append("Category: " + ", ".join(filters.sub_asset_classes))
 
     if selected:
         st.caption(" | ".join(selected))
@@ -377,8 +381,13 @@ def render_normalized_line_chart(title: str, history: pd.DataFrame, event_date: 
 
 
 def render_page_links() -> None:
-    columns = st.columns(4)
-    columns[0].page_link("pages/02_Equities.py", label="View Equities")
-    columns[1].page_link("pages/03_Bonds.py", label="View Bonds")
-    columns[2].page_link("pages/04_Commodities.py", label="View Commodities")
-    columns[3].page_link("pages/05_Compare.py", label="View Compare")
+    first_row = st.columns(3)
+    first_row[0].page_link("pages/02_Equities.py", label="View Equities")
+    first_row[1].page_link("pages/03_Bonds.py", label="View Bonds")
+    first_row[2].page_link("pages/04_Commodities.py", label="View Commodities")
+
+    second_row = st.columns(4)
+    second_row[0].page_link("pages/07_ETFs.py", label="View ETFs")
+    second_row[1].page_link("pages/08_Crypto.py", label="View Crypto")
+    second_row[2].page_link("pages/09_Top_10_Stocks.py", label="View Top Stocks")
+    second_row[3].page_link("pages/05_Compare.py", label="View Compare")

@@ -38,7 +38,7 @@ window_column_labels = {"since_event": reference_label, "since_event_bps": refer
 
 render_page_header(
     "Global Cross-Asset Dashboard",
-    "A high-level view of equities, bonds, and commodities for fast market reading.",
+    "A high-level view of equities, bonds, commodities, ETFs, crypto, and tracked stocks for fast market reading.",
     snapshot,
 )
 render_filter_chips(filters)

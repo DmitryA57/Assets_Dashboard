@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pandas as pd
 import streamlit as st
 
 from src.analytics import (
@@ -14,7 +15,7 @@ from src.analytics import (
 )
 from src.filters import apply_dashboard_filters
 from src.load_data import DashboardBundle, load_dashboard_bundle
-from src.services.overview_service import exclude_russia_rows
+from src.services.overview_service import exclude_russia_rows, load_russia_overview_bundle
 from src.ui import (
     build_page_filters,
     build_reference_date_control,
@@ -30,23 +31,30 @@ from src.ui import (
 
 
 bundle = load_dashboard_bundle()
+reference_date, reference_label = build_reference_date_control(bundle, key_prefix="overview_rus_world")
+
 world_snapshot = exclude_russia_rows(bundle.snapshot)
-world_bundle = DashboardBundle(
+world_prices = bundle.prices.copy()
+russia_bundle = load_russia_overview_bundle(reference_date)
+russia_snapshot = russia_bundle.snapshot
+warnings = russia_bundle.warnings
+
+world_snapshot = apply_reference_window(world_snapshot, world_prices, reference_date)
+overview_snapshot = pd.concat([world_snapshot, russia_snapshot], ignore_index=True, sort=False)
+overview_bundle = DashboardBundle(
     asset_master=bundle.asset_master,
     events=bundle.events,
     prices=bundle.prices,
-    snapshot=world_snapshot,
+    snapshot=overview_snapshot,
 )
-filters = build_page_filters(world_bundle, page_name="overview", key_prefix="overview")
-snapshot = apply_dashboard_filters(world_snapshot, filters)
-reference_date, reference_label = build_reference_date_control(bundle, key_prefix="overview")
-snapshot = apply_reference_window(snapshot, bundle.prices, reference_date)
+filters = build_page_filters(overview_bundle, page_name="overview", key_prefix="overview_rus_world")
+snapshot = apply_dashboard_filters(overview_snapshot, filters)
 comparison_snapshot = comparison_universe(snapshot)
 window_column_labels = {"since_event": reference_label, "since_event_bps": reference_label}
 
 render_page_header(
-    "Overview World",
-    "Global cross-asset monitor excluding Russian market series.",
+    "Overview Rus & World",
+    "Cross-asset overview that combines the global dashboard universe with Russian market series from exported T-Bank history.",
     snapshot,
 )
 render_filter_chips(filters)
@@ -62,7 +70,7 @@ metric_title = format_metric_option(metric, reference_label)
 if snapshot.empty:
     render_empty_state(
         "No market view available.",
-        "Try broadening the filters or load more series into the snapshot.",
+        "Try broadening the filters or verify the exported Russia data files.",
     )
 elif comparison_snapshot.empty:
     render_empty_state(
@@ -97,3 +105,6 @@ else:
     st.subheader("Quick Drill-Down")
     st.caption("Move from the market summary into the asset class pages.")
     render_page_links()
+
+for warning in warnings:
+    st.warning(warning)

@@ -3,3 +3,4 @@ altair>=6.0,<7.0
 pandas>=2.2,<3.0
 pyarrow>=23.0.1,<24.0
 openpyxl>=3.1,<4.0
+requests>=2.32,<3.0

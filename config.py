@@ -5,6 +5,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
+RUSSIA_DATA_DIR = DATA_DIR / "russia"
 RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 
@@ -12,6 +13,9 @@ ASSET_MASTER_PATH = DATA_DIR / "asset_master.csv"
 EVENTS_PATH = DATA_DIR / "events.csv"
 PRICES_PATH = DATA_DIR / "prices.parquet"
 SNAPSHOT_PATH = DATA_DIR / "snapshot.parquet"
+RUSSIA_SUMMARY_EQUITIES_PATH = RUSSIA_DATA_DIR / "summary_equities.csv"
+RUSSIA_SUMMARY_BONDS_PATH = RUSSIA_DATA_DIR / "summary_bonds.csv"
+RUSSIA_DAILY_LAST_PRICE_LONG_PATH = RUSSIA_DATA_DIR / "daily_last_price_long.csv"
 
 DEFAULT_EVENT_ID = "IRAN_US_ISRAEL_OP_START"
 DEFAULT_EVENT_LABEL = "US vs Iran conflict"

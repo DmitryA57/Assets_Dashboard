@@ -1,0 +1,8 @@
+﻿group,requested_ticker,requested_label,ticker,name,uid,figi,class_code,instrument_type,exchange,currency,last_price,close_price,trading_status,ytd_return,since_reference_return,yoy_return,base_ytd,base_reference,base_yoy,last_history_dt,history_rows,stale_flag,history_id_used,history_id_type
+equities,IMOEX,MOEX Russia Index,IMOEX,Индекс МосБиржи,4821c9aa-36e8-4743-b37c-861e58581b25,BBG00KDWPPW2,TQBR,,MOEX,,2746.67,2753.66,,-0.007210965004228909,-0.01874504312038694,-0.060151379317424314,2766.62,2799.14,2922.46,2026-04-21,3843,False,4821c9aa-36e8-4743-b37c-861e58581b25,uid
+equities,MOEXBC,MOEX Blue Chip Index,MOEXBC,Индекс голубых фишек Московской Биржи,62c241ce-b9a3-4944-9c52-86309a29dbba,BBG000Z32261,TQBR,,Issuance,,18228.63,18255.06,,-0.00838826230781664,-0.014677702961648276,-0.04331791575631572,18382.83,18500.17,19054.01,2026-04-21,704,False,62c241ce-b9a3-4944-9c52-86309a29dbba,uid
+equities,MOEXCN,MOEX Consumer Index,MOEXCN,MOEXCN,7ad47d78-8e53-4b52-a2ef-c0b7ab580850,BBG000Z57C41,,,Issuance,,,,,,,,,,,,0,True,,
+equities,MOEXFN,MOEX Financials Index,MOEXFN,MOEXFN,abaaa0fe-472d-4240-9679-144dd382e6ce,BBG000X1GM13,,,Issuance,,,,,,,,,,,,0,True,,
+equities,MOEXMM,MOEX Metals & Mining Index,MOEXMM,MOEXMM,e130b83b-5c97-4b71-b638-f1c7faeaf5ae,BBG000WG2HZ0,,,Issuance,,,,,,,,,,,,0,True,,
+equities,MOEXOG,MOEX Oil & Gas Index,MOEXOG,MOEXOG,cb58b054-84a6-4939-99b1-d0cab7e7d8d1,BBG000WBW6J0,,,Issuance,,,,,,,,,,,,0,True,,
+equities,RTSI,RTS Index USD,RTSI,Индекс РТС,3bc0de7f-4704-4c08-8112-6cd4fad7743c,BBG000NJ9048,TQBR,,MOEX,,1150.05,1152.97,,0.032240402825522985,0.007816813158886271,0.008842337956261881,1114.13,1141.13,1139.97,2026-04-21,3844,False,3bc0de7f-4704-4c08-8112-6cd4fad7743c,uid

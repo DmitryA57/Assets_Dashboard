@@ -34,11 +34,13 @@ PAGE_FILTERS = {
 
 TABLE_LABELS = {
     "display_name": "Name",
+    "ticker": "Ticker",
     "country": "Country",
     "region": "Region",
     "commodity_category": "Category",
     "return_variant": "Return Type",
     "latest_value": "Last",
+    "market_price": "Last / Close",
     "ytd": "YTD",
     "since_event": WINDOW_LABELS["since_event"],
     "yoy": "YoY",
@@ -46,6 +48,9 @@ TABLE_LABELS = {
     "since_event_bps": WINDOW_LABELS["since_event_bps"],
     "yoy_bps": "YoY",
     "data_as_of": "Data as of",
+    "last_update_date": "Last update",
+    "trading_status": "Trading status",
+    "maturity_date": "Maturity",
     "freshness_status": "Freshness",
     "lag_days": "Lag (days)",
     "snapshot_date": "Snapshot Date",
@@ -193,6 +198,8 @@ def _format_metric_series(series: pd.Series, column: str) -> pd.Series:
     if column == "latest_value":
         return series.map(format_level)
     if column in {"snapshot_date", "data_as_of"}:
+        return series.map(format_date)
+    if column in {"last_update_date", "maturity_date"}:
         return series.map(format_date)
     if column == "freshness_status":
         return series.map(format_freshness)
@@ -412,3 +419,6 @@ def render_page_links() -> None:
     second_row[1].page_link("pages/08_Crypto.py", label="View Crypto")
     second_row[2].page_link("pages/09_Top_10_Stocks.py", label="View Top Stocks")
     second_row[3].page_link("pages/05_Compare.py", label="View Compare")
+
+    third_row = st.columns(1)
+    third_row[0].page_link("pages/10_Russia.py", label="View Russia")

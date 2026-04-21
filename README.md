@@ -96,7 +96,14 @@ When creating the app in Streamlit Community Cloud:
 - entrypoint: `app.py`
 - Python: `3.12` if available, otherwise the dependency pins support Python `3.14`
 
-No secrets are required for the current version of the app.
+No secrets are required for the current dashboard pages.
+
+The `Russia` page and `Overview Rus & World` page read repository-local export files from `data/russia/`:
+- `daily_last_price_long.csv`
+- `summary_equities.csv`
+- `summary_bonds.csv`
+
+This keeps the Russia section independent from live T-Bank API connectivity, SSL certificates, and local proxy settings.
 
 ## Pre-Deploy Checklist
 

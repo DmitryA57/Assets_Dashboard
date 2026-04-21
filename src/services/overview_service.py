@@ -4,8 +4,10 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-from src.services.russia_bonds import load_russia_bonds_state
 from src.services.russia_equities import load_russia_equities_state
+
+
+RUSSIA_OVERVIEW_ASSET_IDS = {"ru_eq_rtsi"}
 
 
 def exclude_russia_rows(frame: pd.DataFrame) -> pd.DataFrame:
@@ -35,42 +37,31 @@ class RussiaOverviewBundle:
 
 
 def load_russia_overview_bundle(reference_date: pd.Timestamp) -> RussiaOverviewBundle:
-    frames: list[pd.DataFrame] = []
-    prices_frames: list[pd.DataFrame] = []
     warnings: list[str] = []
 
-    for label, loader in (
-        ("Russia Equities", load_russia_equities_state),
-        ("Russia Bonds", load_russia_bonds_state),
-    ):
-        try:
-            state = loader("", reference_date)
-        except Exception as error:
-            warnings.append(f"{label} could not be loaded: {error}")
-            continue
-        if not state.snapshot.empty:
-            frames.append(state.snapshot.copy())
-        if not state.prices.empty:
-            prices_frames.append(state.prices.copy())
-        warnings.extend(state.warnings)
-
-    if not frames:
+    try:
+        state = load_russia_equities_state("", reference_date)
+    except Exception as error:
+        warnings.append(f"Russia RTSI could not be loaded: {error}")
         return RussiaOverviewBundle(
             snapshot=pd.DataFrame(),
             prices=pd.DataFrame(columns=["date", "asset_id", "value", "source_timestamp"]),
             warnings=warnings,
         )
 
-    combined_snapshot = pd.concat(frames, ignore_index=True, sort=False)
-    combined_prices = pd.concat(prices_frames, ignore_index=True, sort=False) if prices_frames else pd.DataFrame(columns=["date", "asset_id", "value", "source_timestamp"])
+    filtered_snapshot = state.snapshot.copy()
+    if "asset_id" in filtered_snapshot.columns:
+        filtered_snapshot = filtered_snapshot[filtered_snapshot["asset_id"].isin(RUSSIA_OVERVIEW_ASSET_IDS)].copy()
 
-    if "asset_id" in combined_snapshot.columns:
-        combined_snapshot = combined_snapshot.drop_duplicates(subset=["asset_id"], keep="last")
-    if not combined_prices.empty:
-        combined_prices = combined_prices.drop_duplicates(subset=["asset_id", "date"], keep="last").reset_index(drop=True)
+    filtered_prices = state.prices.copy()
+    if "asset_id" in filtered_prices.columns:
+        filtered_prices = filtered_prices[filtered_prices["asset_id"].isin(RUSSIA_OVERVIEW_ASSET_IDS)].copy()
+
+    if filtered_snapshot.empty:
+        warnings.append("Russia RTSI is missing from the export data.")
 
     return RussiaOverviewBundle(
-        snapshot=combined_snapshot.reset_index(drop=True),
-        prices=combined_prices,
+        snapshot=filtered_snapshot.reset_index(drop=True),
+        prices=filtered_prices.reset_index(drop=True),
         warnings=warnings,
     )

@@ -122,7 +122,7 @@ def build_reference_date_control(bundle: DashboardBundle, key_prefix: str) -> tu
         "label": "Reference date",
         "value": selected_default.date(),
         "key": "reference_date",
-        "help": "Used for the middle performance window and reference-date normalization.",
+        "help": "Used for the middle performance window. If the selected date is not a trading day for an asset, the dashboard uses the first available observation after that date.",
     }
     if pd.notna(min_date):
         date_input_kwargs["min_value"] = min_date.date()

@@ -25,7 +25,7 @@ selected_reference_date = st.sidebar.date_input(
     "Reference date",
     value=default_reference_date.date(),
     key="russia_reference_date",
-    help="Used for the middle performance window on the Russia page.",
+    help="Used for the middle performance window. If the selected date is not a MOEX trading day, the page uses the first available observation after that date.",
 )
 reference_date = pd.Timestamp(selected_reference_date)
 reference_label = format_reference_window_label(reference_date, default_reference_date=default_reference_date)
@@ -67,6 +67,7 @@ subtitle = (
 )
 render_page_header("Russia", subtitle, state.snapshot)
 st.caption(f"Source: {state.data_source}")
+st.caption("Methodology: if the selected reference date is a non-trading day for a series, the calculation uses the first available observation after that date.")
 
 if state.snapshot.empty:
     render_empty_state(

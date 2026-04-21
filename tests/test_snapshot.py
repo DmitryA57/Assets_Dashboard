@@ -24,6 +24,7 @@ def test_build_snapshot_computes_yield_bps() -> None:
         [
             {"date": "2025-12-31", "asset_id": "us10y", "value": 4.0, "source_timestamp": "2025-12-31T20:00:00"},
             {"date": "2026-02-27", "asset_id": "us10y", "value": 4.1, "source_timestamp": "2026-02-27T20:00:00"},
+            {"date": "2026-03-02", "asset_id": "us10y", "value": 4.2, "source_timestamp": "2026-03-02T20:00:00"},
             {"date": "2026-04-01", "asset_id": "us10y", "value": 4.5, "source_timestamp": "2026-04-01T20:00:00"},
             {"date": "2025-04-01", "asset_id": "us10y", "value": 3.9, "source_timestamp": "2025-04-01T20:00:00"},
         ]
@@ -52,8 +53,43 @@ def test_build_snapshot_computes_yield_bps() -> None:
     assert row["freshness_status"] == "Fresh"
     assert bool(row["comparison_eligible"]) is True
     assert row["ytd_bps"] == 50.0
-    assert row["since_event_bps"] == 40.0
+    assert row["since_event_bps"] == 30.0
     assert row["yoy_bps"] == 60.0
+
+
+def test_build_snapshot_uses_first_available_value_after_event_date() -> None:
+    asset_master = pd.DataFrame(
+        [{"asset_id": "rtsi", "series_type": "equity_price_index"}]
+    )
+    prices = pd.DataFrame(
+        [
+            {"date": "2025-12-31", "asset_id": "rtsi", "value": 100.0, "source_timestamp": "2025-12-31T20:00:00"},
+            {"date": "2026-02-27", "asset_id": "rtsi", "value": 95.0, "source_timestamp": "2026-02-27T20:00:00"},
+            {"date": "2026-03-02", "asset_id": "rtsi", "value": 110.0, "source_timestamp": "2026-03-02T20:00:00"},
+            {"date": "2026-04-01", "asset_id": "rtsi", "value": 121.0, "source_timestamp": "2026-04-01T20:00:00"},
+            {"date": "2025-04-01", "asset_id": "rtsi", "value": 90.0, "source_timestamp": "2025-04-01T20:00:00"},
+        ]
+    )
+    prices["date"] = pd.to_datetime(prices["date"])
+    prices["source_timestamp"] = pd.to_datetime(prices["source_timestamp"])
+    events = pd.DataFrame(
+        [
+            {
+                "event_id": "IRAN_US_ISRAEL_OP_START",
+                "event_name": "Event",
+                "event_date": "2026-02-28",
+                "description": "Test event",
+                "is_active": True,
+            }
+        ]
+    )
+    events["event_date"] = pd.to_datetime(events["event_date"])
+
+    snapshot = build_snapshot(asset_master=asset_master, prices=prices, events=events)
+    row = snapshot.iloc[0]
+
+    assert row["base_event"] == 110.0
+    assert row["since_event"] == 0.1
 
 
 def test_build_snapshot_marks_stale_series_as_ineligible() -> None:

@@ -49,6 +49,7 @@ render_page_header(
     "Global cross-asset monitor excluding Russian market series.",
     snapshot,
 )
+st.caption("Methodology: if the selected reference date is a non-trading day for a series, the calculation uses the first available observation after that date.")
 render_filter_chips(filters)
 
 metric = st.radio(

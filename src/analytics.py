@@ -125,9 +125,23 @@ def metric_label(metric: str, reference_window_label: str | None = None) -> str:
     return WINDOW_LABELS.get(metric, metric)
 
 
+def resolve_reference_base_value(series_frame: pd.DataFrame, target_date: pd.Timestamp) -> float | None:
+    if series_frame.empty or "date" not in series_frame.columns or "value" not in series_frame.columns:
+        return None
+
+    eligible = series_frame.loc[series_frame["date"] >= target_date].sort_values(["date", "source_timestamp"], na_position="last")
+    if eligible.empty:
+        return None
+    return float(eligible.iloc[0]["value"])
+
+
 def apply_reference_window(frame: pd.DataFrame, prices: pd.DataFrame, reference_date: pd.Timestamp | None) -> pd.DataFrame:
     updated = frame.copy()
     if updated.empty:
+        return updated
+
+    required_columns = {"asset_id", "latest_value", "series_type"}
+    if not required_columns.issubset(updated.columns) or prices.empty or reference_date is None:
         return updated
 
     if "since_event" in updated.columns:
@@ -137,10 +151,6 @@ def apply_reference_window(frame: pd.DataFrame, prices: pd.DataFrame, reference_
     if "base_event" in updated.columns:
         updated["base_event"] = pd.NA
 
-    required_columns = {"asset_id", "latest_value", "series_type"}
-    if not required_columns.issubset(updated.columns) or prices.empty or reference_date is None:
-        return updated
-
     normalized_reference_date = pd.Timestamp(reference_date).normalize()
     price_columns = [column for column in ["asset_id", "date", "value", "source_timestamp"] if column in prices.columns]
     price_frame = prices[price_columns].copy()
@@ -149,21 +159,21 @@ def apply_reference_window(frame: pd.DataFrame, prices: pd.DataFrame, reference_
         price_frame["source_timestamp"] = pd.to_datetime(price_frame["source_timestamp"], errors="coerce")
 
     relevant_asset_ids = updated["asset_id"].dropna().unique().tolist()
-    eligible = price_frame[
-        price_frame["asset_id"].isin(relevant_asset_ids)
-        & price_frame["date"].notna()
-        & (price_frame["date"] <= normalized_reference_date)
-    ]
+    eligible = price_frame[price_frame["asset_id"].isin(relevant_asset_ids) & price_frame["date"].notna()]
     if eligible.empty:
         return updated
 
-    sort_columns = [column for column in ["asset_id", "date", "source_timestamp"] if column in eligible.columns]
-    base_frame = (
-        eligible.sort_values(sort_columns, na_position="last")
-        .groupby("asset_id", dropna=False)
-        .tail(1)[["asset_id", "value"]]
-        .rename(columns={"value": "reference_base"})
-    )
+    base_rows: list[dict[str, object]] = []
+    for asset_id, asset_prices in eligible.groupby("asset_id", dropna=False):
+        reference_base = resolve_reference_base_value(asset_prices, normalized_reference_date)
+        if reference_base is None:
+            continue
+        base_rows.append({"asset_id": asset_id, "reference_base": reference_base})
+
+    if not base_rows:
+        return updated
+
+    base_frame = pd.DataFrame(base_rows)
     updated = updated.merge(base_frame, on="asset_id", how="left")
 
     latest_values = pd.to_numeric(updated["latest_value"], errors="coerce")

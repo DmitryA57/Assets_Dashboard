@@ -75,9 +75,9 @@ def test_apply_reference_window_recomputes_percent_and_bps_metrics() -> None:
     )
     prices = pd.DataFrame(
         [
-            {"asset_id": "spx", "date": "2026-02-28", "value": 100.0, "source_timestamp": "2026-02-28T18:00:00"},
+            {"asset_id": "spx", "date": "2026-03-02", "value": 100.0, "source_timestamp": "2026-03-02T18:00:00"},
             {"asset_id": "spx", "date": "2026-04-01", "value": 120.0, "source_timestamp": "2026-04-01T18:00:00"},
-            {"asset_id": "us10y", "date": "2026-02-28", "value": 4.1, "source_timestamp": "2026-02-28T18:00:00"},
+            {"asset_id": "us10y", "date": "2026-03-02", "value": 4.1, "source_timestamp": "2026-03-02T18:00:00"},
             {"asset_id": "us10y", "date": "2026-04-01", "value": 4.5, "source_timestamp": "2026-04-01T18:00:00"},
         ]
     )
@@ -91,3 +91,24 @@ def test_apply_reference_window_recomputes_percent_and_bps_metrics() -> None:
     assert pd.isna(spx["since_event_bps"])
     assert us10y["since_event_bps"] == 40.0
     assert pd.isna(us10y["since_event"])
+
+
+def test_apply_reference_window_uses_first_available_value_after_reference_date() -> None:
+    frame = pd.DataFrame(
+        [
+            {"asset_id": "rtsi", "latest_value": 120.0, "series_type": "equity_price_index", "since_event": None, "since_event_bps": None, "base_event": None},
+        ]
+    )
+    prices = pd.DataFrame(
+        [
+            {"asset_id": "rtsi", "date": "2026-02-27", "value": 90.0, "source_timestamp": "2026-02-27T18:00:00"},
+            {"asset_id": "rtsi", "date": "2026-03-02", "value": 100.0, "source_timestamp": "2026-03-02T18:00:00"},
+            {"asset_id": "rtsi", "date": "2026-04-01", "value": 120.0, "source_timestamp": "2026-04-01T18:00:00"},
+        ]
+    )
+
+    updated = apply_reference_window(frame, prices, pd.Timestamp("2026-02-28"))
+    rtsi = updated.iloc[0]
+
+    assert rtsi["base_event"] == 100.0
+    assert rtsi["since_event"] == 0.2

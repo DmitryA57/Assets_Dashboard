@@ -287,6 +287,11 @@ def load_russia_export_market_state(market_key: str, reference_date: pd.Timestam
         events=pd.DataFrame(columns=["event_id", "event_name", "event_date", "description", "is_active"]),
     )
     if not snapshot.empty:
+        snapshot = snapshot.merge(
+            asset_master[["asset_id", "series_type"]].drop_duplicates(subset=["asset_id"]),
+            on="asset_id",
+            how="left",
+        )
         snapshot = apply_reference_window(snapshot, prices, reference_date)
 
     enriched_snapshot, warnings, schedule_status = _enrich_snapshot(

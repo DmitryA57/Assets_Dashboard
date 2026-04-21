@@ -13,6 +13,7 @@ from config import (
     FRESH_MAX_LAG_DAYS,
     SNAPSHOT_PATH,
 )
+from src.analytics import resolve_reference_base_value
 from src.constants import SERIES_TYPE_BPS, SERIES_TYPE_PERCENT, SNAPSHOT_COLUMNS
 
 
@@ -51,13 +52,6 @@ def _resolve_event_date(events: pd.DataFrame) -> pd.Timestamp:
     return pd.Timestamp(DEFAULT_EVENT_DATE)
 
 
-def _select_value_on_or_before(series_frame: pd.DataFrame, target_date: pd.Timestamp) -> float | None:
-    eligible = series_frame.loc[series_frame["date"] <= target_date].sort_values("date")
-    if eligible.empty:
-        return None
-    return float(eligible.iloc[-1]["value"])
-
-
 def _latest_value(series_frame: pd.DataFrame) -> tuple[pd.Timestamp | None, float | None]:
     ordered = series_frame.sort_values(["date", "source_timestamp"], na_position="last")
     if ordered.empty:
@@ -70,9 +64,9 @@ def _base_points(series_frame: pd.DataFrame, latest_date: pd.Timestamp, event_da
     prev_year_end = pd.Timestamp(year=latest_date.year - 1, month=12, day=31)
     yoy_target = latest_date - pd.DateOffset(years=1)
     return BasePoints(
-        ytd=_select_value_on_or_before(series_frame, prev_year_end),
-        event=_select_value_on_or_before(series_frame, event_date),
-        yoy=_select_value_on_or_before(series_frame, yoy_target),
+        ytd=resolve_reference_base_value(series_frame, prev_year_end),
+        event=resolve_reference_base_value(series_frame, event_date),
+        yoy=resolve_reference_base_value(series_frame, yoy_target),
     )
 
 

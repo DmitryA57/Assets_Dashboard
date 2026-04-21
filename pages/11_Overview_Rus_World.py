@@ -54,9 +54,10 @@ window_column_labels = {"since_event": reference_label, "since_event_bps": refer
 
 render_page_header(
     "Overview Rus & World",
-    "Cross-asset overview that combines the global dashboard universe with Russian market series from exported T-Bank history.",
+    "Cross-asset overview that combines the global dashboard universe with RTSI as the single Russian cross-market benchmark.",
     snapshot,
 )
+st.caption("Methodology: if the selected reference date is a non-trading day for a series, the calculation uses the first available observation after that date.")
 render_filter_chips(filters)
 
 metric = st.radio(
